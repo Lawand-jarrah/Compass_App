@@ -8,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.TextView;
 import java.util.*;
@@ -15,12 +16,14 @@ import java.util.*;
 public class AcceleratorActivity extends AppCompatActivity implements SensorEventListener{
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
+    private MediaPlayer mp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accelerator);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mp = MediaPlayer.create(this, R.raw.eagle_cry_sound);
         Intent intent = getIntent();
     }
 
@@ -46,6 +49,10 @@ public class AcceleratorActivity extends AppCompatActivity implements SensorEven
         TextView xAcceleration = findViewById(R.id.x_acceleration);
         TextView yAcceleration = findViewById(R.id.y_acceleration);
         TextView zAcceleration = findViewById(R.id.z_acceleration);
+
+        if(values[0].equals("10") || values[1].equals("10") || values[2].equals("10")) {
+            mp.start();
+        }
 
         xAcceleration.setText(values[0]);
         yAcceleration.setText(values[1]);
